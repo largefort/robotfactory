@@ -12,7 +12,7 @@ const gameState = {
     totalRobots: 0,
     scrapsPerClick: 1,
     scrapsPerSecond: 0,
-    robotsPerMinute: 0,
+    robotsPerSecond: 0,
     
     // Upgrades
     clickLevel: 1,
@@ -285,7 +285,7 @@ function updateUI() {
     
     scrapsPerClickElement.textContent = gameState.scrapsPerClick;
     scrapsPerSecondElement.textContent = gameState.scrapsPerSecond.toFixed(1);
-    robotsPerMinuteElement.textContent = gameState.robotsPerMinute.toFixed(2);
+    robotsPerMinuteElement.textContent = (gameState.robotsPerSecond * 60).toFixed(2);
     totalScrapsElement.textContent = Math.floor(gameState.totalScraps);
     totalRobotsElement.textContent = Math.floor(gameState.totalRobots);
     
@@ -293,6 +293,16 @@ function updateUI() {
     document.getElementById('buy-click-upgrade').disabled = gameState.scraps < gameState.clickCost;
     document.getElementById('buy-collector').disabled = gameState.scraps < gameState.collectorCost;
     document.getElementById('buy-builder').disabled = gameState.scraps < gameState.builderCost;
+    
+    // Update robot builder status to reflect when production is halted due to lack of scraps
+    const robotBuilderElement = document.getElementById('robot-builder');
+    if (gameState.builderLevel > 0 && gameState.scraps < 5) {
+        robotBuilderElement.classList.add('inactive');
+        robotBuilderElement.querySelector('p').innerHTML = 'Automatically build robots<br><span class="warning">Not enough scraps!</span>';
+    } else {
+        robotBuilderElement.classList.remove('inactive');
+        robotBuilderElement.querySelector('p').innerHTML = 'Automatically build robots';
+    }
 }
 
 // Setup event listeners
@@ -330,7 +340,7 @@ function setupEventListeners() {
         if (gameState.scraps >= gameState.builderCost) {
             gameState.scraps -= gameState.builderCost;
             gameState.builderLevel++;
-            gameState.robotsPerMinute = 0.1 * gameState.builderLevel;
+            gameState.robotsPerSecond = 0.05 * gameState.builderLevel;
             gameState.builderCost = Math.floor(200 * Math.pow(1.7, gameState.builderLevel));
             updateUI();
             showUpgradeEffect('robot-builder');

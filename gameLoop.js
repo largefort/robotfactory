@@ -5,7 +5,7 @@ export function initGameLoop(gameState, collectScraps, buildRobots, updateUI, sa
     setInterval(() => {
         // Auto collector produces scraps
         if (gameState.collectorLevel > 0) {
-            collectScraps(gameState.scrapsPerSecond / 10);
+            collectScraps(gameState.scrapsPerSecond);
             
             // Occasionally show auto collector text
             if (Math.random() < 0.2) { 
@@ -14,13 +14,14 @@ export function initGameLoop(gameState, collectScraps, buildRobots, updateUI, sa
         }
         
         // Robot builder produces robots
-        if (gameState.builderLevel > 0) {
-            const robotsProduced = gameState.robotsPerMinute / 600; 
+        if (gameState.builderLevel > 0 && gameState.scraps >= 5) {
+            const robotsProduced = gameState.robotsPerSecond; 
             if (robotsProduced > 0) {
+                // Only build robots if we have enough scraps
                 buildRobots(robotsProduced);
                 
-                // Removed condition that was preventing robot production
-                gameState.scraps -= 50 * robotsProduced;
+                // Robot production cost
+                gameState.scraps -= 5 * robotsProduced;
                 
                 // Occasionally animate robot building
                 if (Math.random() < 0.05) {
@@ -30,11 +31,10 @@ export function initGameLoop(gameState, collectScraps, buildRobots, updateUI, sa
         }
         
         updateUI();
-    }, 100);
-    
-    // Autosave every 30 seconds
-    setInterval(() => {
-        saveGame(gameState);
-        console.log('Game autosaved');
-    }, 30000);
+        
+        // Save game periodically (every 10 loops)
+        if (Math.random() < 0.1) {
+            saveGame(gameState);
+        }
+    }, 1000); // Changed to 1 second interval (1000ms)
 }

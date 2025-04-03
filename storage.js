@@ -7,7 +7,7 @@ export function saveGame(gameState) {
         totalRobots: gameState.totalRobots,
         scrapsPerClick: gameState.scrapsPerClick,
         scrapsPerSecond: gameState.scrapsPerSecond,
-        robotsPerMinute: gameState.robotsPerMinute,
+        robotsPerSecond: gameState.robotsPerSecond,
         
         clickLevel: gameState.clickLevel,
         clickCost: gameState.clickCost,
@@ -33,4 +33,3 @@ export function loadGame() {
 export function clearSavedGame() {
     localStorage.removeItem('robotFactory');
 }
-

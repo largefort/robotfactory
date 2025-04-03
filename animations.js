@@ -76,7 +76,7 @@ export function showAutoCollectorEffect() {
     
     // Create a floating text for auto collection with enhanced styling
     const floatingText = document.createElement('div');
-    floatingText.textContent = `+${(parseFloat(scrapsPerSecond) / 10).toFixed(1)}`;
+    floatingText.textContent = `+${parseFloat(scrapsPerSecond)}`;
     floatingText.style.position = 'absolute';
     floatingText.style.left = `${scrapPileElement.getBoundingClientRect().left + 70 + Math.random() * 60}px`;
     floatingText.style.top = `${scrapPileElement.getBoundingClientRect().top + 30 + Math.random() * 40}px`;
