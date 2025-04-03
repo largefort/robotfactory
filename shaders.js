@@ -3,6 +3,10 @@ import * as PIXI from 'pixi.js';
 // Initialize the shader effects for the game
 export function initShaders() {
     try {
+        if (!PIXI || typeof PIXI.Application !== 'function') {
+            throw new Error('PIXI.js not properly loaded');
+        }
+        
         // Create PIXI application for shader effects
         const app = new PIXI.Application({
             width: window.innerWidth,
@@ -94,20 +98,44 @@ export function initShaders() {
         window.addEventListener('resize', () => {
             app.renderer.resize(window.innerWidth, window.innerHeight);
         });
+        
+        console.log("PIXI shaders initialized successfully");
     } catch (error) {
         console.error("Could not initialize PIXI shaders:", error);
-        // Fallback to add simple CSS-based glow effects
-        addSimpleGlowEffects();
+        // Fallback to add simple CSS-based effects
+        addFallbackEffects();
     }
-    
-    // Always add glow effects (either with PIXI or simple CSS)
-    addGlowEffects();
 }
 
-// Add simple CSS-based glow effects as fallback
-function addSimpleGlowEffects() {
+// Add CSS-based visual effects when PIXI is not available
+function addFallbackEffects() {
     const style = document.createElement('style');
     style.textContent = `
+        body:after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.3) 100%),
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px);
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        .light-effect {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(79,195,247,0.1) 0%, rgba(79,195,247,0) 70%);
+            pointer-events: none;
+            z-index: 998;
+            transition: all 0.1s ease;
+        }
+        
         .scrap-collector:hover {
             filter: drop-shadow(0 0 10px rgba(79, 195, 247, 0.7));
         }
@@ -117,6 +145,20 @@ function addSimpleGlowEffects() {
         }
     `;
     document.head.appendChild(style);
+    
+    // Create a div to follow mouse cursor with radial gradient
+    const lightEffect = document.createElement('div');
+    lightEffect.className = 'light-effect';
+    document.body.appendChild(lightEffect);
+    
+    // Move light effect with mouse
+    document.addEventListener('mousemove', (e) => {
+        lightEffect.style.left = (e.clientX - 150) + 'px';
+        lightEffect.style.top = (e.clientY - 150) + 'px';
+    });
+    
+    // Add pulsing glow effects to interactive elements
+    addGlowEffects();
 }
 
 // Add pulsing glow effects to interactive elements
@@ -130,7 +172,7 @@ function addGlowEffects() {
     
     interactiveElements.forEach(element => {
         if (element) {
-            // Create pulsing animation using standard DOM methods instead of gsap to avoid dependencies
+            // Create pulsing animation using standard DOM methods
             element.style.transition = 'box-shadow 2s ease-in-out';
             setInterval(() => {
                 if (element.style.boxShadow === '0 0 15px rgba(79, 195, 247, 0.5)') {
