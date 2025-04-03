@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Builder Clicker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+    {
+        "imports": {
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.2/index.js",
+            "pixi.js": "https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/dist/pixi.min.js"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="particles-container" id="particles"></div>
+    
+    <div class="game-container">
+        <div class="header">
+            <h1>Robot Factory Idle</h1>
+            <div class="resources">
+                <div class="resource">
+                    <span id="scraps-count">0</span> Scraps
+                </div>
+                <div class="resource">
+                    <span id="robots-count">0</span> Robots
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="factory-area">
+                <div class="scrap-collector">
+                    <svg id="scrap-pile" width="200" height="150" viewBox="0 0 200 150">
+                        <!-- Scrap pile will be drawn here -->
+                    </svg>
+                </div>
+                <div class="robot-display">
+                    <svg id="robot-assembly" width="300" height="200" viewBox="0 0 300 200">
+                        <!-- Robot assembly animation will be here -->
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="upgrades-panel">
+                <h2>Upgrades</h2>
+                <div class="upgrade-list">
+                    <div class="upgrade" id="click-upgrade">
+                        <h3>Better Scrapper</h3>
+                        <p>Increase scraps per click</p>
+                        <p>Level: <span id="click-level">1</span></p>
+                        <p>Cost: <span id="click-cost">10</span> scraps</p>
+                        <button id="buy-click-upgrade">Upgrade</button>
+                    </div>
+                    
+                    <div class="upgrade" id="auto-collector">
+                        <h3>Auto Collector</h3>
+                        <p>Automatically collect scraps</p>
+                        <p>Level: <span id="collector-level">0</span></p>
+                        <p>Cost: <span id="collector-cost">50</span> scraps</p>
+                        <button id="buy-collector">Purchase</button>
+                    </div>
+                    
+                    <div class="upgrade" id="robot-builder">
+                        <h3>Robot Builder</h3>
+                        <p>Automatically build robots</p>
+                        <p>Level: <span id="builder-level">0</span></p>
+                        <p>Cost: <span id="builder-cost">200</span> scraps</p>
+                        <button id="buy-builder">Purchase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-panel">
+            <h2>Statistics</h2>
+            <p>Scraps per click: <span id="scraps-per-click">1</span></p>
+            <p>Scraps per second: <span id="scraps-per-second">0</span></p>
+            <p>Robots per minute: <span id="robots-per-minute">0</span></p>
+            <p>Total scraps collected: <span id="total-scraps">0</span></p>
+            <p>Total robots built: <span id="total-robots">0</span></p>
+        </div>
+        
+        <div class="news-ticker">
+            <p id="news-text">Welcome to your Robot Factory! Click the scrap pile to begin collecting materials...</p>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <script type="module" src="gameLoop.js"></script>
+    <script type="module" src="animations.js"></script>
+    <script type="module" src="shaders.js"></script>
+</body>
+</html>
