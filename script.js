@@ -3,6 +3,10 @@ import { saveGame, loadGame } from './storage.js';
 import { initGameLoop } from './gameLoop.js';
 import { animateScrapClick, showUpgradeEffect, animateRobotBuilding, initParticleSystem } from './animations.js';
 import { initShaders } from './shaders.js';
+import { initPrestige } from './prestige.js';
+import { initOfflineProgress } from './offlineProgress.js';
+import { initResetProgress } from './resetProgress.js';
+import { initUIEnhancements } from './ui-enhancements.js';
 
 // Game state
 const gameState = {
@@ -392,6 +396,21 @@ function init() {
     // Initialize enhanced visuals
     initParticleSystem();
     initShaders();
+    
+    // Initialize prestige system
+    const prestigeSystem = initPrestige(gameState, updateUI);
+    prestigeSystem.init();
+    
+    // Initialize offline progress tracking
+    const offlineProgress = initOfflineProgress(gameState, collectScraps, buildRobots);
+    offlineProgress.setupEvents();
+    
+    // Initialize reset progress option
+    const resetProgress = initResetProgress(gameState, updateUI);
+    resetProgress.setupResetOption();
+    
+    // Initialize UI enhancements
+    initUIEnhancements();
 }
 
 // Start the game

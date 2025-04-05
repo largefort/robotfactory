@@ -14,7 +14,14 @@ export function saveGame(gameState) {
         collectorLevel: gameState.collectorLevel,
         collectorCost: gameState.collectorCost,
         builderLevel: gameState.builderLevel,
-        builderCost: gameState.builderCost
+        builderCost: gameState.builderCost,
+        
+        // Save prestige data
+        prestigePoints: gameState.prestigePoints || 0,
+        lifetimePrestigePoints: gameState.lifetimePrestigePoints || 0, 
+        prestigeCount: gameState.prestigeCount || 0,
+        lifetimeScraps: gameState.lifetimeScraps || gameState.totalScraps,
+        lifetimeRobots: gameState.lifetimeRobots || gameState.totalRobots
     }));
 }
 
