@@ -7,6 +7,9 @@ import { initPrestige } from './prestige.js';
 import { initOfflineProgress } from './offlineProgress.js';
 import { initResetProgress } from './resetProgress.js';
 import { initUIEnhancements } from './ui-enhancements.js';
+import { enhanceScrapClickStyles } from './click-effects.js';
+import { initImportExport } from './import-export.js';
+import { initNewsTicker } from './news-ticker.js';
 
 // Game state
 const gameState = {
@@ -367,16 +370,6 @@ function buildRobots(amount) {
     updateUI();
 }
 
-// News ticker rotation
-function startNewsTickerRotation() {
-    let currentMessageIndex = 0;
-    
-    setInterval(() => {
-        currentMessageIndex = (currentMessageIndex + 1) % gameState.newsMessages.length;
-        newsTextElement.textContent = gameState.newsMessages[currentMessageIndex];
-    }, 10000);
-}
-
 // Initialize the game
 function init() {
     // Load saved game if available
@@ -391,7 +384,6 @@ function init() {
     updateUI();
     setupEventListeners();
     initGameLoop(gameState, collectScraps, buildRobots, updateUI, saveGame);
-    startNewsTickerRotation();
     
     // Initialize enhanced visuals
     initParticleSystem();
@@ -411,6 +403,15 @@ function init() {
     
     // Initialize UI enhancements
     initUIEnhancements();
+    
+    // Enhance scraps per click styling
+    enhanceScrapClickStyles();
+    
+    // Initialize import/export functionality
+    initImportExport(gameState, updateUI, initPrestige(gameState, updateUI));
+    
+    // Initialize news ticker
+    initNewsTicker(gameState);
 }
 
 // Start the game

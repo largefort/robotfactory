@@ -14,9 +14,8 @@ export function initResetProgress(gameState, updateUI) {
             <button id="reset-button" class="reset-button">Reset All Progress</button>
         `;
         
-        // Insert at the bottom of the page
-        const newsTickerElement = document.querySelector('.news-ticker');
-        newsTickerElement.parentNode.insertBefore(resetSection, newsTickerElement.nextSibling);
+        // Insert after stats panel
+        statsPanel.parentNode.insertBefore(resetSection, statsPanel.nextSibling);
         
         // Add reset button styles
         const style = document.createElement('style');

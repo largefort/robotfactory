@@ -23,6 +23,7 @@ body {
 .header {
     text-align: center;
     margin-bottom: 30px;
+    margin-top: 10px;
     padding: 25px;
     background: linear-gradient(180deg, rgba(29, 53, 87, 0.8) 0%, rgba(20, 39, 78, 0.9) 100%);
     border-radius: 20px;
@@ -433,6 +434,7 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(72, 202, 228, 0.15);
     position: relative;
     border: 1px solid rgba(72, 202, 228, 0.2);
+    margin-bottom: 20px;
 }
 
 .news-ticker:before {
