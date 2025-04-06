@@ -9,6 +9,8 @@ import { initResetProgress } from './resetProgress.js';
 import { initUIEnhancements } from './ui-enhancements.js';
 import { enhanceScrapClickStyles } from './click-effects.js';
 import { initImportExport } from './import-export.js';
+import { addTitleFlickeringEffect } from './light-effects.js';
+import { initRobotAnimationScheduler } from './robotAnimations.js';
 
 // Game state
 const gameState = {
@@ -105,6 +107,9 @@ const gameState = {
         "Robot software vulnerability patch released - update immediately.",
     ]
 };
+
+// Make gameState accessible globally to allow other modules to access it
+window.gameState = gameState;
 
 // DOM elements
 const scrapsCountElement = document.getElementById('scraps-count');
@@ -330,7 +335,7 @@ function setupEventListeners() {
             showUpgradeEffect('click-upgrade');
         }
     });
-    
+
     document.getElementById('buy-collector').addEventListener('click', () => {
         if (gameState.scraps >= gameState.collectorCost) {
             gameState.scraps -= gameState.collectorCost;
@@ -341,7 +346,7 @@ function setupEventListeners() {
             showUpgradeEffect('auto-collector');
         }
     });
-    
+
     document.getElementById('buy-builder').addEventListener('click', () => {
         if (gameState.scraps >= gameState.builderCost) {
             gameState.scraps -= gameState.builderCost;
@@ -350,6 +355,8 @@ function setupEventListeners() {
             gameState.builderCost = Math.floor(200 * Math.pow(1.7, gameState.builderLevel));
             updateUI();
             showUpgradeEffect('robot-builder');
+            
+            // Animate robot building after purchase
             animateRobotBuilding();
         }
     });
@@ -419,6 +426,14 @@ function init() {
     
     // Initialize import/export functionality
     initImportExport(gameState, updateUI, prestigeSystem);
+    
+    // Add flickering effect to title
+    addTitleFlickeringEffect();
+    
+    // Initialize robot animations if builder level > 0
+    if (gameState.builderLevel > 0) {
+        initRobotAnimationScheduler();
+    }
 }
 
 // Start the game

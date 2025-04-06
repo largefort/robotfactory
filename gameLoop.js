@@ -23,10 +23,7 @@ export function initGameLoop(gameState, collectScraps, buildRobots, updateUI, sa
                 // Robot production cost
                 gameState.scraps -= 5 * robotsProduced;
                 
-                // Occasionally animate robot building
-                if (Math.random() < 0.05) {
-                    animateRobotBuilding();
-                }
+                // We no longer trigger the animation here, it's handled by the scheduler
             }
         }
         
@@ -36,5 +33,6 @@ export function initGameLoop(gameState, collectScraps, buildRobots, updateUI, sa
         if (Math.random() < 0.1) {
             saveGame(gameState);
         }
-    }, 1000); // Changed to 1 second interval (1000ms)
+    }, 1000);
 }
+
