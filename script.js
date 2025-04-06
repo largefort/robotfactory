@@ -11,6 +11,7 @@ import { enhanceScrapClickStyles } from './click-effects.js';
 import { initImportExport } from './import-export.js';
 import { addTitleFlickeringEffect } from './light-effects.js';
 import { initRobotAnimationScheduler } from './robotAnimations.js';
+import { initStockMarket } from './stockMarket.js';
 
 // Game state
 const gameState = {
@@ -425,7 +426,7 @@ function init() {
     enhanceScrapClickStyles();
     
     // Initialize import/export functionality
-    initImportExport(gameState, updateUI, prestigeSystem);
+    initImportExport(gameState, updateUI);
     
     // Add flickering effect to title
     addTitleFlickeringEffect();
@@ -434,6 +435,10 @@ function init() {
     if (gameState.builderLevel > 0) {
         initRobotAnimationScheduler();
     }
+    
+    // Initialize stock market
+    const stockMarket = initStockMarket(gameState, updateUI);
+    stockMarket.init();
 }
 
 // Start the game
