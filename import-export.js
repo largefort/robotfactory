@@ -280,13 +280,14 @@ export function initImportExport(gameState, updateUI, prestigeSystem) {
         `;
         
         // Add the panel to the page
-        const statsPanel = document.querySelector('.stats-panel');
         const resetSection = document.querySelector('.reset-section');
-        
         if (resetSection) {
-            resetSection.parentNode.insertBefore(panel, resetSection.nextSibling);
+            resetSection.parentNode.insertBefore(panel, resetSection);
         } else {
-            statsPanel.parentNode.insertBefore(panel, statsPanel.nextSibling);
+            const statsPanel = document.querySelector('.stats-panel');
+            if (statsPanel) {
+                statsPanel.parentNode.insertBefore(panel, statsPanel.nextSibling);
+            }
         }
         
         // Add event listeners
